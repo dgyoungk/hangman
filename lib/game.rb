@@ -3,12 +3,16 @@
 require_relative 'playable.rb'
 require_relative 'displayable.rb'
 require_relative 'player.rb'
-require_relative 'fileable.rb'
+require_relative 'basic_serializable.rb'
 
 class Game
   include Playable
-  include Fileable
+  include BasicSerializable
   include Player
+
+  @@answer_path = './google-10000-english-no-swears.txt'
+  @@save_path  ='../saves/sv_file.txt'
+
   attr_accessor :turn, :player, :incorrect_used, :correct, :progress, :answer
 
   def initialize()
