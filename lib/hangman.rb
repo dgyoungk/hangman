@@ -2,7 +2,7 @@
 
 require_relative 'game.rb'
 
-puts 'Hangman Initialized!'
+match = Game.new
 
 # upon start of a new game, select a word from the .txt file to use as the word to guess
 # choosing how many turns should be allowed for each game... e.g. the turns it takes to draw just the person
