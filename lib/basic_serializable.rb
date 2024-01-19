@@ -25,7 +25,7 @@ module BasicSerializable
         arr.push(word)
       end
     end
-    eligibles.sample
+    eligibles.sample.chomp
   end
 
   def save_to_file(file_path, obj_string)
