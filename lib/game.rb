@@ -13,19 +13,17 @@ class Game
   @@answer_path = './google-10000-english-no-swears.txt'
   @@save_path  ='./saves/sv_file.txt'
 
-  attr_accessor :turns, :player, :incorrect_used, :correct, :progress, :answer
+  attr_accessor :turns, :player, :used_letters, :progress, :answer
 
   def initialize()
     self.turns = 0
-    self.incorrect_used = []
-    self.correct = []
+    self.used_letters = []
     # progress and answer init should be handled by a method that reads from the txt file and gets the value first
     # from the BasicSerializable module
     self.answer = get_answer(@@answer_path)
     self.progress = get_progress(answer)
     game_setup
   end
-
 
   private
 
