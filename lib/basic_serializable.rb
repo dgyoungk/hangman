@@ -28,10 +28,12 @@ module BasicSerializable
     eligibles.sample
   end
 
-  def save_game(file_path, obj_string)
+  def save_to_file(file_path, obj_string)
     file = write_to(file_path)
     file.write obj_string
   end
+
+  # find a way to connect the serializing method to the file-writing method
 
   def serialize
     obj = {}
