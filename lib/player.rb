@@ -7,5 +7,6 @@ class Player
     self.name = name
     self.letter_guess = ''
     self.word_guess = ''
+
   end
 end

@@ -25,12 +25,21 @@ class Game
     game_setup
   end
 
+  def reset
+    # self.turns = 0
+    # self.used_letters = []
+    # self.answer = get_answer()
+    # self.progress = get_progress(answer)
+    replay = Game.new
+  end
+
   private
 
   def game_setup()
     welcome_msg()
     new_player_msg
     self.player = Player.new(gets.chomp)
+    # prompt_load_game(player)
     rules_msg()
     start_game(self)
   end

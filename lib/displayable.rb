@@ -23,7 +23,7 @@ module Displayable
 
   # called from Playable method
   def turn_msg(turn)
-    puts %(\nTurn #{turn}:)
+    puts %(\nTurn #{turn})
   end
 
   # something like player name's guess: (guess input value)
@@ -33,8 +33,8 @@ module Displayable
   end
 
   # called from Playable method
-  def show_progress
-
+  def invalid_input_msg
+    puts %(\nThat's not a valid choice, try again)
   end
 
   # called from Playable method
@@ -44,7 +44,7 @@ module Displayable
 
   # called from Playable method
   def letter_correct_msg
-    puts %(Correct!)
+    puts %(\nYou got one!)
   end
 
   # show each turn only if the player guessed more than 3 letters correctly
@@ -64,12 +64,20 @@ module Displayable
   end
 
   # called from Playable method
-  def game_over_msg
-    puts %(You win!!!)
+  def game_won_msg
+    puts %(\nYou win!!!)
+  end
+
+  def game_lost_msg
+    puts %(\nYou lose, womp womp)
+  end
+
+  def replay_msg
+    print %(\nDo you wanna play again? (y/n): )
   end
 
   # end of game msg
   def farewell_msg
-
+    puts %(Thanks for playing, till next time!)
   end
 end
