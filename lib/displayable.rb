@@ -58,13 +58,11 @@ module Displayable
   # show each turn only if the player guessed more than 3 letters correctly
   # called from Playable method
   def guess_answer_msg
-    print %(\nDo you wanna try to guess the answer? (y for yes, any other key for no): )
-    choice = gets.chomp
+    print %(\nDo you wanna try to guess the answer? (y/n): )
   end
 
   def answer_choice_msg
     print %(\nWhat's your guess? )
-    word_guess = gets.chomp.downcase
   end
 
   def guess_wrong_msg

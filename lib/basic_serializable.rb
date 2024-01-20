@@ -13,7 +13,7 @@ module BasicSerializable
   end
 
   def write_to(file_path)
-    File.open(file_path, 'w+')
+    File.open(file_path, 'w')
   end
 
   def get_answer(file_path)

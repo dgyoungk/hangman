@@ -3,6 +3,8 @@
 require_relative 'game.rb'
 
 match = Game.new
+match.game_setup
+
 
 
 # upon start of a new game, select a word from the .txt file to use as the word to guess

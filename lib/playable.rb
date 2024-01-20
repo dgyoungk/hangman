@@ -1,45 +1,51 @@
 # frozen_string_literal = false
 
-# TODO: DEBUG THE GAME-SAVING AND GAME-LOADING FUNCTIONALITY
+require_relative 'displayable.rb'
 
 module Playable
+  include Displayable
   # methods needed so far: check_guess, update_progress
 
   def start_game(match)
+    saved = false
     until game_won?(match) || match.turns > 8
-      # if there's more than 5 letters correctly guessed, allow the player to try and guess the answer word
-      if match.prompt_game_save
-        break
-      end
+      # if there's more than 3 letters correctly guessed, allow the player to try and guess the answer word
+      play_game(match)
       if get_letter_counts(match.progress) >= 3 && match.turns < 9
         display_progress(match)
-        if guess_answer_msg == 'y'
+        guess_answer_msg
+        if check_choice == 'y'
           player_guess_answer(match)
         end
       end
+      game_save_msg
+      if check_choice == 'y'
+        save_game(match)
+        saved = true
+        break
+      end
     end
-    end_of_game(match)
+    end_of_game(match, saved)
   end
 
-  def end_of_game(match)
-    if match.prompt_game_save
-      match.farewell_msg
+  def end_of_game(match, saved)
+    if saved
+      farewell_msg
     elsif game_won?(match)
-      match.game_won_msg
+      game_won_msg
     else
-      match.game_lost_msg
+      game_lost_msg
       display_answer(match)
     end
   end
 
-  def check_choice()
-    save_choice = gets.chomp.downcase
-    until save_choice == 'y' || save_choice == 'n'
-      puts %(That's not a valid choice, try again)
-      match.game_save_msg
-      save_choice = gets.chomp.downcase
+  def check_choice
+    choice = gets.chomp.downcase
+    until choice == 'y' || choice == 'n'
+      print %(That's not a valid choice, try again: )
+      choice = gets.chomp.downcase
     end
-    save_choice
+    choice
   end
 
   def game_won?(match)
@@ -52,19 +58,20 @@ module Playable
 
   def play_game(match)
     match.turns += 1
-    match.turn_msg(match.turns)
+    turn_msg(match.turns)
     # puts match.answer
     display_progress(match)
-    match.guess_letter_msg
+    guess_letter_msg
     letter = get_guess(match)
     update_game(match, letter)
   end
 
   def player_guess_answer(match)
     match.turns += 1
-    match.turn_msg(match.turns)
+    turn_msg(match.turns)
     # display_progress(match)
-    match.player.word_guess = answer_choice_msg
+    answer_choice_msg
+    match.player.word_guess = gets.chomp.downcase
     # if the player gets the answer
     if check_answer(match)
       match.progress = match.player.word_guess.split('')
@@ -98,8 +105,8 @@ module Playable
     alphabet_only = /^[A-Za-z]+$/
     letter = gets.chomp.downcase
     while letter.length > 1 || match.used_letters.include?(letter) || !letter.match?(alphabet_only)
-      match.invalid_input_msg
-      match.guess_letter_msg
+      invalid_input_msg
+      guess_letter_msg
       letter = gets.chomp.downcase
     end
     letter
@@ -108,14 +115,14 @@ module Playable
   def update_game(match, letter)
     match.player.letter_guess = letter
     if match.answer.include?(match.player.letter_guess)
-      match.letter_correct_msg
+      letter_correct_msg
       update_progress(match)
-      match.used_letters.push(match.player.letter_guess)
+      used_letters.push(match.player.letter_guess)
       # debugging
       # p match.answer
       # p match.progress.join(' ')
     else
-      match.letter_incorrect_msg
+      letter_incorrect_msg
       match.used_letters.push(match.player.letter_guess)
       # p match.answer
     end
