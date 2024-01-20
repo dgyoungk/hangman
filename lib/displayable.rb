@@ -44,7 +44,15 @@ module Displayable
 
   # called from Playable method
   def letter_correct_msg
-    puts %(\nYou got one!)
+    puts %(\nCorrect!)
+  end
+
+  def game_save_msg
+    print %(\nWould you like to save your current game? (y/n): )
+  end
+
+  def game_load_msg
+    print %(\nWould you like to load a saved game? (y/n/): )
   end
 
   # show each turn only if the player guessed more than 3 letters correctly

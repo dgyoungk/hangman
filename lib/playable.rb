@@ -1,13 +1,16 @@
 # frozen_string_literal = false
 
+# TODO: DEBUG THE GAME-SAVING AND GAME-LOADING FUNCTIONALITY
+
 module Playable
   # methods needed so far: check_guess, update_progress
 
   def start_game(match)
     until game_won?(match) || match.turns > 8
       # if there's more than 5 letters correctly guessed, allow the player to try and guess the answer word
-      play_game(match)
-
+      if match.prompt_game_save
+        break
+      end
       if get_letter_counts(match.progress) >= 3 && match.turns < 9
         display_progress(match)
         if guess_answer_msg == 'y'
@@ -15,13 +18,28 @@ module Playable
         end
       end
     end
-    if game_won?(match)
+    end_of_game(match)
+  end
+
+  def end_of_game(match)
+    if match.prompt_game_save
+      match.farewell_msg
+    elsif game_won?(match)
       match.game_won_msg
     else
       match.game_lost_msg
       display_answer(match)
     end
-    prompt_replay(match)
+  end
+
+  def check_choice()
+    save_choice = gets.chomp.downcase
+    until save_choice == 'y' || save_choice == 'n'
+      puts %(That's not a valid choice, try again)
+      match.game_save_msg
+      save_choice = gets.chomp.downcase
+    end
+    save_choice
   end
 
   def game_won?(match)
@@ -30,21 +48,6 @@ module Playable
 
   def display_answer(match)
     puts %(The answer was #{match.answer})
-  end
-
-  def prompt_replay(match)
-    match.replay_msg
-    choice = gets.chomp.downcase
-    until choice == 'y' || choice == 'n'
-      puts %(That's not an option, try again)
-      match.replay_msg
-      choice = gets.chomp.downcase
-    end
-    if choice == 'y'
-      match.reset
-    else
-      match.farewell_msg
-    end
   end
 
   def play_game(match)
